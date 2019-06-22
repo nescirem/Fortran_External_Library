@@ -13,5 +13,7 @@ program main
     call test_lib()
     
     call sub_lib_in_lib()
+	
+	write( *,* ) '8. Done.'
     
 end program main

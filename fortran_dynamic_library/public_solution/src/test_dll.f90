@@ -1,4 +1,4 @@
-subroutine test_lib
+subroutine test_dll
     
     use funcmod
     use data_def
@@ -6,20 +6,16 @@ subroutine test_lib
     
     interface
     
-        function func2
-            implicit none
-            integer func2
+        integer function func2
+            implicit none 
         end function func2
         
     end interface
     
-    
-    
-    i = func1()
-    
+    i = func1()    
     i = func2()
     call sub1()
     call sub2()
     call public_sub()
   
-end subroutine test_lib
+end subroutine test_dll

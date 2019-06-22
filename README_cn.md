@@ -16,13 +16,13 @@ fortran静态链接库在 Visual Studio + Intel Visual Fortran 上的编译以�
 
 ## 步骤
 
-使用Visual Studio 2015以上的版本打开 `lib.sln` （位于： `.\static_library\msvs\` ）：
+使用Visual Studio 2015以上的版本打开 `lib.sln` 或 `dll.sln`（位于： `.\fortran_{Type_of_library}\{Type_of_library}\msvs\` ）：
 
 **生成 - 批生成 - 全选 - 生成**
 
-编译得到了静态链接库文件lib_x64.lib 以及lib_x86.lib。
+编译得到了静态链接库文件lib_x64.lib 以及lib_x86.lib，或相应的动态链接库文件。
 
-同样地，打开位于 `.\public_solution\msvs\` 的 `public_code.sln` 文件进行批生成。
+同样地，打开位于 `.\fortran_{Type_of_library}\public_solution\msvs\` 的 `public_code.sln` 文件进行批生成。
 
 最后链接输出的可执行文件位于： `.\public_solution\binary\`
 

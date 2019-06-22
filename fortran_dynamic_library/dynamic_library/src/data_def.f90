@@ -1,5 +1,6 @@
 module data_def
     
+    !DEC$ ATTRIBUTES DLLEXPORT :: i, string
     implicit none
     
     integer             ::  i
@@ -7,3 +8,4 @@ module data_def
     character(len=128)  ::  string
     
 end module data_def
+

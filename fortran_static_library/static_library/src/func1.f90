@@ -8,7 +8,7 @@ contains
         
         implicit none
   
-        write( *,* ) '1. This is a function which is packed by module in the static libaray "lib.lib"!'
+        write( *,* ) '1. This is a function in the static library which is packed by a module!'
         func1 = 1
     
     end function func1

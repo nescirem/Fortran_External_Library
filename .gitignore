@@ -4,6 +4,8 @@
 *.exe
 *.mod
 *.lib
+*.dll
+*.exp
 
 # Build results
 [Dd]ebug/
