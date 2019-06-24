@@ -6,7 +6,7 @@ subroutine test_dll
     
     interface
     
-        integer function func2
+        integer function func2()
             implicit none 
         end function func2
         

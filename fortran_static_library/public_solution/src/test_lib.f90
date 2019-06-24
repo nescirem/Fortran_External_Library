@@ -6,10 +6,9 @@ subroutine test_lib
     
     interface
     
-        function func2
-            implicit none
+        function func2()
             integer func2
-        end function func2
+        end function
         
     end interface
     

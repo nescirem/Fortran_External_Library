@@ -6,6 +6,8 @@
 *.lib
 *.dll
 *.exp
+*.a
+*.so
 
 # Build results
 [Dd]ebug/
@@ -19,6 +21,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 binary/
+objects/
 
 # ADV
 My Advisor*/
