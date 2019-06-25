@@ -3,9 +3,23 @@
 red='\e[91m'
 green='\e[92m'
 yellow='\e[93m'
-magenta='\e[95m'
-cyan='\e[96m'
 none='\e[0m'
+
+###################
+# gfortran | ifort
+Compiler=
+# debug | release
+DEBUG=
+###################
+
+if [ -z $Compiler  ];then
+	if [ `command -v gfortran` ];then Compiler="gfortran";
+	elif [ `command -v ifort` ];then Compiler="ifort";
+	else
+		echo -e "$red No supported fortran compiler is installed, please install Intel fortran or GUN fortran$none" && exit 1
+	fi
+fi
+if [ -z $DEBUG  ]; then DEBUG="release"; fi;
 
 shpath=$(cd `dirname $0`; pwd)
 
@@ -15,21 +29,19 @@ else
 	sudo=""
 fi
 
-# unalias cp
-
 echo -e "$yellow clean$none"
 cd $shpath/public_solution && make clean
 cd $shpath/dynamic_library && make clean
 
 echo -e "$green build dynamic library 'libdll.so'$none"
 cd $shpath/dynamic_library
-make all
+make all FC=$Compiler
 #sudo cp -rf libdll.so /usr/lib/
 sudo mv -f libdll.so ../public_solution/
 
 echo -e "$green build executable file 'main'$none"
 cd $shpath/public_solution
-make all
+make all FC=$Compiler DDBUG=$DEBUG
 
 if [[ -d ./library  ]]; then
 	sudo rm -rf ./library

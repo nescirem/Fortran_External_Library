@@ -14,6 +14,6 @@ program main
     
     call sub_lib_in_lib()
 	
-	write( *,* ) '8. Done.'
+    write( *,* ) '8. Done.'
     
 end program main

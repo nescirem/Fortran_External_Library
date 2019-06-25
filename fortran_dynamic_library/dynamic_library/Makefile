@@ -7,20 +7,27 @@ SUFFIXES:=.f90
 
 .SUFFIXES: # clear the suffixes
 .SUFFIXES: $(SUFFIXES) .o
-# Basename of main program without extention (assumed .f90)
+# Name of the dynamic library without extention (assumed .so)
 LIBRARY:=libdll
-# Where other files are
+# Where source files are here
 SRC_DIR:=src
-# Where to put .o .mod files
+# Where to put .o and .mod files
 OBJ_DIR:=objects
 
-# Compiler
-FC:=gfortran
-# Options for shared library
-LDFLAGS:=
-# Compiler options
-# Leave -I,-J$(MOD_DIR) as .mod are put here
-FCFLAGS:=-I$(OBJ_DIR) -J$(OBJ_DIR)
+# Compiler Flags
+ifeq ($(FC),gfortran)
+    LDFLAGS:= -fbacktrace -Wall -Wextra -Wno-maybe-uninitialized -Wno-unused-function -pedantic -std=f2008ts
+else
+    LDFLAGS:= -std15 -static-intel
+endif
+ifeq ($(FC),gfortran)
+    FCFLAGS:=-I$(OBJ_DIR) -J$(OBJ_DIR)
+else
+    FCFLAGS:=-L$(OBJ_DIR)
+endif
+
+# RELEASE Only
+OPTIMIZE:= -O2
 
 # Getting the .o file name from source code
 OBJECTS:=	$(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%,\
@@ -40,9 +47,13 @@ all: info $(OBJ_DIR) $(LIBRARY)
 # Display some info
 info:
 	@echo "make: Compiler options:"
-	@echo "make: $(FCFLAGS)"
-	@echo "objects: $(OBJECTS)"
-
+	@echo "make: Compiler = $(FC)"
+	@echo "make: OPTIMIZE = $(OPTIMIZE)"
+	@echo "make: FCFLAGS = $(FCFLAGS)"
+	@echo "make: LDFLAGS = $(LDFLAGS)"
+	@echo "make: OBJECTS = $(OBJECTS)"
+    
+	
 # Getting the dependencies of the modules. This produces a file to include
 depend: $(OBJ_DIR)
 	@echo 'make: Dependancies built'
@@ -50,7 +61,8 @@ depend: $(OBJ_DIR)
 # Rule for all file. Look at VPATH variable
 $(OBJ_DIR)/%.o: %.f90
 	@echo 'make: Compiling' $<
-	@$(FC) $(LDFLAGS) $(FCFLAGS) -o $@ -c $<
+	@$(FC) -fPIC $(OPTIMIZE) $(LDFLAGS) $(FCFLAGS) -o $@ -c $<
+
 
 # Rule for the $(OBJ_DIR) directory
 $(OBJ_DIR):
@@ -61,7 +73,8 @@ $(OBJ_DIR):
 # Creating the .so
 $(LIBRARY): $(OBJECTS)
 	@echo 'make: Dynamically linking objects'
-	@$(FC) $^ -shared -fPIC -o $@.so
+    
+	@$(FC) $(OPTIMIZE) $(LDFLAGS) $(FCFLAGS) $^ -shared  -o $@.so
 	@echo 'make: Dynamic library '$@' successfuly created.'
 
 clean:

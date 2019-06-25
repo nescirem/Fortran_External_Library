@@ -18,8 +18,13 @@ cd $shpath/public_solution && make clean >/dev/null 2>&1
 
 echo 'remove: public_solution/library'
 if [[ -d ./library  ]]; then
-	sudo rm -rf ./library
+	sudo rm -rf ./library >/dev/null 2>&1
 fi
+
+modules=$(find . -maxdepth 1 -name "*.mod"  | tr '\n'  ' ')
+rmmodules=$(echo $modules | sed 's/.\//public_solution\//g')
+echo "remove: $rmmodules"
+sudo rm $modules >/dev/null 2>&1
 echo 
 
 echo 'remove: dynamic_library/libdll.so dynamic_library/objects'
@@ -27,9 +32,14 @@ cd $shpath/dynamic_library && make clean >/dev/null 2>&1
 
 echo 'remove: dynamic_library/binary'
 if [[ -d ./binary  ]]; then
-	sudo rm -rf ./binary
+	sudo rm -rf ./binary >/dev/null 2>&1
 fi
 
+modules=$(find . -maxdepth 1 -name "*.mod"  | tr '\n'  ' ')
+rmmodules=$(echo $modules | sed 's/.\//dynamic_library\//g')
+echo "remove: $rmmodules"
+sudo rm $modules >/dev/null 2>&1
+echo 
 
 echo  -e "$green Done.$none"
 echo 

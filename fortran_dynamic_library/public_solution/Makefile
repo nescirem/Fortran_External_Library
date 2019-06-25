@@ -19,13 +19,31 @@ SRC_DIR:=src
 OBJ_DIR:=objects
 # name of the library
 LIB:=libdll.so
-# Compiler
-FC:=gfortran
-# Options for shared library
-LDFLAGS:=
-# Compiler options
-# Leave -I,-J$(MOD_DIR) as .mod are put here
-FCFLAGS:=-I$(OBJ_DIR) -J$(OBJ_DIR)
+
+# Compiler Flags
+ifeq ($(FC),gfortran)
+    LDFLAGS:= -fbacktrace -Wall -Wextra -Wno-maybe-uninitialized -Wno-unused-function -pedantic -std=f2008ts
+else
+    LDFLAGS:= -std15 -static-intel
+endif
+
+ifndef $(DDBUG)
+    OPTIMIZE:= -O2
+endif
+ifeq ($(DDBUG),debug)
+    ifeq ($(FC),gfortran)
+        OPTIMIZE:= -O0 -g3 -Warray-bounds -Wcharacter-truncation -Wline-truncation -Wimplicit-interface -Wimplicit-procedure -Wunderflow -fcheck=all -ffree-line-length-132 -fimplicit-none -fbacktrace -fdump-core -finit-real=nan -std=f2008ts -fall-intrinsics
+    else
+        OPTIMIZE:= -O0 -debug all -check all -warn all -extend-source 132 -traceback -gen-interfaces -fpe-all=0 -fp-stack-check -fstack-protector-all -ftrapuv -no-ftz -std15
+    endif
+else
+    DDBUG:=release
+endif
+ifeq ($(FC),gfortran)
+    FCFLAGS:=-I$(OBJ_DIR) -J$(OBJ_DIR)
+else
+    FCFLAGS:=-L$(OBJ_DIR)
+endif
 
 # Getting the .o file name from source code
 MOD_OBJECTS:=	$(patsubst $(MOD_DIR)/%,$(OBJ_DIR)/%,\
@@ -50,10 +68,12 @@ all: info depend $(PROGRAM)
 # Display some info
 info:
 	@echo "make: Compiler options:"
-	@echo "make: $(FCFLAGS)"
-	@echo "objects: $(OBJECTS)"
-	@echo "libs: $(LIB)"
-		
+	@echo "make: Compiler = $(FC)"
+	@echo "make: DDBUG = $(DDBUG)"
+	@echo "make: OPTIMIZE = $(OPTIMIZE)"
+	@echo "make: FCFLAGS = $(FCFLAGS)"
+	@echo "make: LDFLAGS = $(LDFLAGS)"
+	
 # Rule for the $(BIN_DIR) directory
 $(BIN_DIR):
 	@if [ ! -d $(BIN_DIR) ]; then \
@@ -73,12 +93,12 @@ depend: $(BIN_DIR) $(OBJ_DIR) $(MOD_OBJECTS)
 # Rule for all file. Look at VPATH variable
 $(OBJ_DIR)/%.o: %.f90
 	@echo 'make: Compiling' $<
-	@$(FC) $(LDFLAGS) $(FCFLAGS) -o $@ -c $<
+	@$(FC) $(OPTIMIZE) $(LDFLAGS) $(FCFLAGS) -o $@ -c $<
 
 # Creating the executable file
 $(PROGRAM): $(OBJECTS) $(LIB)
 	@echo 'make: Stacticly linking objects'
-	@$(FC) $(LDFLAGS) $(FCFLAGS) -o $(BIN_DIR)/$@ $^
+	@$(FC) $(OPTIMIZE) $(LDFLAGS) $(FCFLAGS) -o $(BIN_DIR)/$@ $^
 	@echo 'make: Program '$@' successfuly created.'
 
 clean:

@@ -17,13 +17,21 @@ MOD_DIR:=src/lib_in_lib
 OBJ_DIR:=objects
 # name of the library
 LIB:=lib_in_lib.a
-# Compiler
-FC:=gfortran
-# Options for shared library
-LDFLAGS:=
-# Compiler options
-# Leave -I,-J$(MOD_DIR) as .mod are put here
-FCFLAGS:=-I$(OBJ_DIR) -J$(OBJ_DIR)
+
+# Compiler Flags
+ifeq ($(FC),gfortran)
+    LDFLAGS:= -fbacktrace -Wall -Wextra -Wno-maybe-uninitialized -Wno-unused-function -pedantic -std=f2008ts
+else
+    LDFLAGS:= -std15 -static-intel
+endif
+ifeq ($(FC),gfortran)
+    FCFLAGS:=-I$(OBJ_DIR) -J$(OBJ_DIR)
+else
+    FCFLAGS:=-L$(OBJ_DIR)
+endif
+
+# RELEASE Only
+OPTIMIZE:= -O2
 
 # Getting the .o file name from source code
 MOD_OBJECTS:=	$(patsubst $(MOD_DIR)/%,$(OBJ_DIR)/%,\
@@ -51,10 +59,11 @@ all: info depend $(LIBRARY)
 # Display some info
 info:
 	@echo "make: Compiler options:"
-	@echo "make: $(FCFLAGS)"
-	@echo "mods: $(MOD_OBJECTS)"
-	@echo "objects: $(OBJECTS)"
-	@echo "libs: $(LIB)"
+	@echo "make: Compiler = $(FC)"
+	@echo "make: OPTIMIZE = $(OPTIMIZE)"
+	@echo "make: FCFLAGS = $(FCFLAGS)"
+	@echo "make: LDFLAGS = $(LDFLAGS)"
+	@echo "make: OBJECTS = $(OBJECTS)"
 
 # Rule for the $(OBJ_DIR) directory
 $(OBJ_DIR):
@@ -69,7 +78,7 @@ depend: $(OBJ_DIR) $(MOD_OBJECTS)
 # Rule for all file. Look at VPATH variable
 $(OBJ_DIR)/%.o: %.f90
 	@echo 'make: Compiling' $<
-	@$(FC) $(LDFLAGS) $(FCFLAGS) -o $@ -c $<
+	@$(FC) $(LDFLAGS) $(OPTIMIZE) $(FCFLAGS) -o $@ -c $<
 
 $(OBJ_DIR)/$(LIB): $(MOD_OBJECTS) $(OBJECTS)
 	@echo 'make: Creating the library $@'

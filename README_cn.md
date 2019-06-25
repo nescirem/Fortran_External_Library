@@ -10,9 +10,9 @@ fortran第三方静态/链接库的编译以及第三方调用演示。[[English
 > 2. 使用他人编写的闭源链接库（需要对方提供相应的"interface"）。
 > 3. 多语言混合编程（扯淡）。
 
-本演示案例"闭源部分"： `.\static_library\src\` ；"开源部分"：  `.\public_solution\src\` 。
+本演示案例"闭源部分"： `.\fortran_{Type_of_library}\{Type_of_library}\src\` ；"开源部分"：  `.\fortran_{Type_of_library}\public_solution\src\` 。
 
-"开源部分"中接口代码 `.\public_solution\src\interface\` 是由"闭源部分"相应代码删去私有变量及过程得到的。
+"开源部分"中接口代码 `.\fortran_{Type_of_library}\public_solution\src\interface\` 是由"闭源部分"相应代码删去私有变量及过程得到的。
 
 
 
@@ -30,13 +30,22 @@ fortran第三方静态/链接库的编译以及第三方调用演示。[[English
 
 接下来同样地，打开位于 `.\fortran_{Type_of_library}\public_solution\msvs\` 的 `public_code.sln` 文件进行批生成。
 
-最后链接输出的可执行文件位于： `.\public_solution\binary\`
+最后链接输出的可执行文件位于： `.\fortran_{Type_of_library}\public_solution\binary\`
 
 ### Linux
+
+构建：
 
 ```bash
 ./fortran_dynamic_library/build.sh
 ./fortran_static_library/build.sh
+```
+
+清理：
+
+```bash
+./fortran_dynamic_library/clean_all.sh
+./fortran_static_library/clean_all.sh
 ```
 
 

@@ -8,17 +8,17 @@ Compile and the usage of third party static library & dynamic library. [[中文]
 
 ### Windows
 
-find and open `lib.sln` or `dll.sln` with visual studio (>2015)  which is located in `.\fortran_{Type_of_library}\{Type_of_library}\msvs\` :
+open `lib.sln` or `dll.sln` with visual studio (>2015)  which is located in `.\fortran_{Type_of_library}\{Type_of_library}\msvs\` :
 
 **Build - Batch Build - Select all - Build**
 
-then find and open `public_code.sln` with visual studio (>2015)  which is located in `.\fortran_{Type_of_library}\public_solution\msvs\` :
-
-**Build - Batch Build - Select all - Build**
+then similar operations with `public_code.sln` which is located in `.\fortran_{Type_of_library}\public_solution\msvs\` 
 
 the binary file is located in `.\public_solution\binary\`
 
 ### Linux
+
+Intel fortran and GNU fortran is supported.
 
 ```bash
 ./fortran_dynamic_library/build.sh
