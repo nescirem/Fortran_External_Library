@@ -1,84 +1,83 @@
 #!/usr/bin/env python
+#coding:utf-8
 
-import os
 from sh import bash
+
+def createDeck():
+    import itertools
+    FC=['gfortran','ifort']
+    DDBUG=['debug','release']
+    return (list(itertools.product(FC,DDBUG)))
 
 def main():
     
-    print ("", flush=True);
+    def test_library(str):
+        if LIBRARY == "STATIC_LIBRARY":
+            expected = read_file("./expect/lib_expect.txt")
+        else:
+            expected = read_file("./expect/dll_expect.txt")
+        
+        expected = pure_str(expected)
+        cstrs = str.split( " --------------------------------" )
+        result = pure_str(cstrs[-2])
+        
+        if expected == result:
+            print ('\033[0;32m[PASS]\033[0m', flush=True);  err_code = 0
+        else:
+            print ('\033[1;31m[ERROR]\033[0m', flush=True);  err_code = 1
+        
+        return err_code
+        
+    def test_modes():
+        err_count=0
+        for i in modes:
+            bash( c='./fortran_'+LIBRARY.lower()+'/clean_all.sh', _timeout=2 )
+            app_cmd = i[0]+' '+i[1]
+            if app_cmd.isspace():
+                print ( LIBRARY+' DEFAULT', end=": ", flush=True)
+            else:
+                print ( LIBRARY+' '+app_cmd, end=": ", flush=True)
+            str = bash( c='./fortran_'+LIBRARY.lower()+'/build.sh '+app_cmd, _timeout=10 )
+            err_count += test_library(str)
+        return err_count
+        
+    print ('', flush=True)
     
-    bash( c="./fortran_static_library/clean_all.sh", _timeout=2 )
-    str = bash( c="./fortran_static_library/build.sh", _timeout=10 )
-    test_static_library(str)
-    str = bash( c="./fortran_static_library/build.sh gfortran debug", _timeout=10 )
-    test_static_library(str)
-    str = bash( c="./fortran_static_library/build.sh gfortran release", _timeout=10 )
-    test_static_library(str)
-    str = bash( c="./fortran_static_library/build.sh ifort debug", _timeout=10 )
-    test_static_library(str)
-    str = bash( c="./fortran_static_library/build.sh ifort release", _timeout=10 )
-    test_static_library(str)
+    modes = createDeck()
+    modes.append(('',''))
     
-    print (" ", end="", flush=True);
+    err_tcount = 0
+    # STATIC LIBRARY
+    LIBRARY="STATIC_LIBRARY"
+    err_tcount += test_modes()
     
-    bash( c="./fortran_dynamic_library/clean_all.sh", _timeout=2 )
-    str = bash( c="./fortran_dynamic_library/build.sh", _timeout=10 )
-    test_dynamic_library(str)
-    str = bash( c="./fortran_dynamic_library/build.sh gfortran debug", _timeout=10 )
-    test_dynamic_library(str)
-    str = bash( c="./fortran_dynamic_library/build.sh gfortran release", _timeout=10 )
-    test_dynamic_library(str)
-    str = bash( c="./fortran_dynamic_library/build.sh ifort debug", _timeout=10 )
-    test_dynamic_library(str)
-    str = bash( c="./fortran_dynamic_library/build.sh ifort release", _timeout=10 )
-    test_dynamic_library(str)
+    print ('', flush=True)
     
-    print ("\n");
-    print ("Done.");
-
-def test_static_library(str):
-    expected = read_file("./expect/lib_expect.txt")
-    expected = expected.replace(' ','')
-    expected = expected.replace('\n','')
-    cstrs = str.split( " --------------------------------" )
-    result = cstrs[-2].replace(' ','')
-    result = result.replace('\n','')
+    # DYNAMIC LIBRARY
+    LIBRARY="DYNAMIC_LIBRARY"
+    err_tcount += test_modes()
     
-    # print ("\nexpected",expected);
-    # print ("\nresult",result);
+    clean_all()
     
-    if expected == result:
-        print (".", end="", flush=True);
-    else:
-        print ("F", end="", flush=True);
-    
-    bash( c="./fortran_static_library/clean_all.sh", _timeout=2 )
-    
-def test_dynamic_library(str):
-    expected = read_file("./expect/dll_expect.txt")
-    expected = expected.replace(' ','')
-    expected = expected.replace('\n','')
-    cstrs = str.split( " --------------------------------" )
-    result = cstrs[-2].replace(' ','')
-    result = result.replace('\n','')
-    
-    # print ("\nexpected",expected);
-    # print ("\nresult",result);
-    
-    if expected == result:
-        print (".", end="", flush=True);
-    else:
-        print ("F", end="", flush=True);
-    
-    bash( c="./fortran_dynamic_library/clean_all.sh", _timeout=2 )
+    print ("\033[1;31mERROR\033[0m =", err_tcount)
+    print ('', flush=True)
     
 def read_file(file_path):
-    
+    import os
     if not os.path.isfile(file_path):
         raise TypeError(file_path + " does not exist")
-
     text_in_file = open(file_path).read()
     return text_in_file
+    
+def pure_str(str):
+    purestr = str.replace(' ','')
+    purestr = purestr.replace('\n','')
+    return purestr
+    
+def clean_all():
+    bash( c="./fortran_static_library/clean_all.sh", _timeout=2 )
+    bash( c="./fortran_dynamic_library/clean_all.sh", _timeout=2 )
+    print ('', flush=True)
     
 if __name__=="__main__":
     main()

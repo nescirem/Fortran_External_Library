@@ -2,7 +2,13 @@
 
 ![](https://img.shields.io/badge/platform-linux%20|%20windows-lightgrey.svg) ![](https://img.shields.io/badge/license-MIT-blue.svg)
 
-Compile and the usage of third party static library & dynamic library. [[中文](./README_cn.md)]
+Compile and the usage of third-party static library & dynamic library. [[中文](./README_cn.md)]
+
+
+
+## Links
+
+* Source code repository: https://github.com/nescirem/Fortran_External_Library
 
 
 
@@ -52,4 +58,6 @@ All codes are released under [MIT](./LICENSE) license except `make_depends_tree.
 ## Thanks to
 
 [[pirpyn](https://github.com/pirpyn)]:  [Fortran-Project-Template](https://github.com/pirpyn/Fortran-Project-Template)
+
+\[臭石头雪球]: http://v.fcode.cn/
 

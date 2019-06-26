@@ -6,6 +6,12 @@ fortran第三方静态/链接库的编译及调用的简单演示。[[English](.
 
 
 
+## 链接
+
+- 源代码库: https://github.com/nescirem/Fortran_External_Library
+
+
+
 ## 需求
 
 > 1. 将私有代码打包成静态或动态链接库，供外部人员编译调用（需要我方提供相应的Module接口代码）。
@@ -14,7 +20,7 @@ fortran第三方静态/链接库的编译及调用的简单演示。[[English](.
 
 本演示案例"闭源部分"： `.\fortran_{Type_of_library}\{Type_of_library}\src\` ；"开源部分"：  `.\fortran_{Type_of_library}\public_solution\src\` 。
 
-fortran在链接到第三方链接库时较为麻烦的一点是：在编译时不但需要第三方链接库文件还需需要第三方链接库的Module接口代码。就是在链接到第三方链接库时必须先编译会被公开代码部分调用的删去了私有变量和过程的代码编译得到的 *.mod 文件。若没有这些 *.mod 文件，则会因为缺失module而无法编译可执行程序。
+fortran在链接到第三方链接库时较为麻烦的一点是：在编译时不但需要第三方链接库文件还需需要第三方链接库的Module接口代码。就是在链接到第三方链接库时必须先编译会被公开代码部分调用的删去了私有变量和过程的代码编译，得到 *.mod 文件。若没有这些 *.mod 文件，则会因为缺失module而无法编译链接到第三方链接库的可执行程序。
 
 "开源部分"中接口代码 `.\fortran_{Type_of_library}\public_solution\src\interface\` 是由"闭源部分"相应代码删去私有变量及过程得到的。
 
@@ -71,5 +77,7 @@ fortran在链接到第三方链接库时较为麻烦的一点是：在编译时�
 
 ## 感谢
 
-[[pirpyn](https://github.com/pirpyn)]:  [Fortran-Project-Template](https://github.com/pirpyn/Fortran-Project-Template)
+[[pirpyn](https://github.com/pirpyn)]: [Fortran-Project-Template](https://github.com/pirpyn/Fortran-Project-Template)
+
+\[臭石头雪球]: http://v.fcode.cn/
 
