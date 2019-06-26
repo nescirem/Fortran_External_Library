@@ -7,9 +7,9 @@ none='\e[0m'
 
 ###################
 # gfortran | ifort | 
-Compiler=
+Compiler=$1
 # debug | release |
-DEBUG=
+DEBUG=$2
 ###################
 
 if [ -z $Compiler  ];then
@@ -52,7 +52,7 @@ echo
 
 sleep 1
 echo  -e "$green Run executable file './public_solution/binary/main'$none"
-echo -e "$red --------------------------------$none"
+echo " --------------------------------"
 cd $shpath/public_solution/binary
 eval ./main
-echo -e "$red --------------------------------$none"
+echo " --------------------------------"

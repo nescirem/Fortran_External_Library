@@ -25,6 +25,10 @@ modules=$(find . -maxdepth 1 -name "*.mod"  | tr '\n'  ' ')
 rmmodules=$(echo $modules | sed 's/.\//public_solution\//g')
 echo "remove: $rmmodules"
 sudo rm $modules >/dev/null 2>&1
+modules=$(find . -maxdepth 1 -name "*.f90"  | tr '\n'  ' ')
+rmmodules=$(echo $modules | sed 's/.\//public_solution\//g')
+echo "remove: $rmmodules"
+sudo rm $modules >/dev/null 2>&1
 echo 
 
 echo 'remove: dynamic_library/libdll.so dynamic_library/objects'

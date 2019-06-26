@@ -6,10 +6,10 @@ yellow='\e[93m'
 none='\e[0m'
 
 ###################
-# gfortran | ifort
-Compiler=
-# debug | release
-DEBUG=
+# gfortran | ifort |
+Compiler=$1
+# debug | release |
+DEBUG=$2
 ###################
 
 if [ -z $Compiler  ];then
@@ -54,8 +54,8 @@ echo
 
 sleep 1
 echo  -e "$green Run executable file './public_solution/binary/main'$none"
-echo -e "$red --------------------------------$none"
+echo -e " --------------------------------"
 cd $shpath/public_solution
 export LD_LIBRARY_PATH=./library
 eval ./binary/main
-echo -e "$red --------------------------------$none"
+echo -e " --------------------------------"
