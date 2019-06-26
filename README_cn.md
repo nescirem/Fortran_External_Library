@@ -1,6 +1,6 @@
 # fortran第三方链接库
 
- ![](https://img.shields.io/badge/platform-linux | windows-lightgrey.svg) ![](https://img.shields.io/badge/license-MIT-blue.svg)
+![](https://img.shields.io/badge/platform-linux%20|%20windows-lightgrey.svg) ![](https://img.shields.io/badge/license-MIT-blue.svg)
 
 fortran第三方静态/链接库的编译及调用的简单演示。[[English](./README.md)]
 

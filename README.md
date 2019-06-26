@@ -1,6 +1,6 @@
 # Fortran External Dynamic & Static Linking  Library
 
- ![](https://img.shields.io/badge/platform-linux | windows-lightgrey.svg) ![](https://img.shields.io/badge/license-MIT-blue.svg)
+![](https://img.shields.io/badge/platform-linux%20|%20windows-lightgrey.svg) ![](https://img.shields.io/badge/license-MIT-blue.svg)
 
 Compile and the usage of third party static library & dynamic library. [[中文](./README_cn.md)]
 
