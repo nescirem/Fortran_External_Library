@@ -26,6 +26,12 @@ the binary file is located in `.\public_solution\binary\`
 
 ### Linux
 
+```bash
+git clone https://github.com/nescirem/Fortran_External_Library.git
+cd Fortran_External_Library
+chmod -R 711 ./
+```
+
 Intel fortran and GNU fortran is supported.
 
 ```bash
@@ -60,4 +66,6 @@ All codes are released under [MIT](./LICENSE) license except `make_depends_tree.
 [[pirpyn](https://github.com/pirpyn)]:  [Fortran-Project-Template](https://github.com/pirpyn/Fortran-Project-Template)
 
 \[臭石头雪球]: http://v.fcode.cn/
+
+\[Neo Insight!]: https://www.avex.idv.tw/?p=243
 

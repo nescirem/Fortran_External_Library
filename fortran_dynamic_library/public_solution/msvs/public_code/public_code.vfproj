@@ -11,7 +11,7 @@
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true"/>
 				<Tool Name="VFCustomBuildTool"/>
 				<Tool Name="VFPreLinkEventTool"/>
-				<Tool Name="VFPreBuildEventTool" CommandLine="copy &quot;..\..\..\dynamic_library\binary\dll_x86.lib&quot;  &quot;.\lib\&quot;"/>
+				<Tool Name="VFPreBuildEventTool" CommandLine="if not exist .\lib md .\lib&#xA;copy &quot;..\..\..\dynamic_library\binary\dll_x86.lib&quot;  &quot;.\lib\&quot;"/>
 				<Tool Name="VFPostBuildEventTool"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
 		<Configuration Name="Release|Win32" OutputDirectory="../../binary" TargetName="main_x86">
@@ -21,17 +21,17 @@
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true"/>
 				<Tool Name="VFCustomBuildTool"/>
 				<Tool Name="VFPreLinkEventTool"/>
-				<Tool Name="VFPreBuildEventTool" CommandLine="copy &quot;..\..\..\dynamic_library\binary\dll_x86.lib&quot;  &quot;.\lib\&quot;"/>
+				<Tool Name="VFPreBuildEventTool" CommandLine="if not exist .\lib md .\lib&#xA;copy &quot;..\..\..\dynamic_library\binary\dll_x86.lib&quot;  &quot;.\lib\&quot;"/>
 				<Tool Name="VFPostBuildEventTool"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
-		<Configuration Name="Debug|x64" OutputDirectory="../../binary" TargetName="manid">
+		<Configuration Name="Debug|x64" OutputDirectory="../../binary" TargetName="maind">
 				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" AdditionalIncludeDirectories="./include/x64d" WarnInterfaces="true" Traceback="true" BoundsCheck="true" StackFrameCheck="true" RuntimeLibrary="rtMultiThreadedDebugDLL"/>
 				<Tool Name="VFLinkerTool" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" AdditionalLibraryDirectories="./lib" GenerateDebugInformation="true" SubSystem="subSystemConsole" AdditionalDependencies="dll_x64.lib"/>
 				<Tool Name="VFResourceCompilerTool"/>
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TargetEnvironment="midlTargetAMD64"/>
 				<Tool Name="VFCustomBuildTool"/>
 				<Tool Name="VFPreLinkEventTool"/>
-				<Tool Name="VFPreBuildEventTool" CommandLine="copy &quot;..\..\..\dynamic_library\binary\dll_x64.lib&quot;  &quot;.\lib\&quot;"/>
+				<Tool Name="VFPreBuildEventTool" CommandLine="if not exist .\lib md .\lib&#xA;copy &quot;..\..\..\dynamic_library\binary\dll_x64.lib&quot;  &quot;.\lib\&quot;"/>
 				<Tool Name="VFPostBuildEventTool"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
 		<Configuration Name="Release|x64" OutputDirectory="../../binary" TargetName="main">
@@ -41,7 +41,7 @@
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TargetEnvironment="midlTargetAMD64"/>
 				<Tool Name="VFCustomBuildTool"/>
 				<Tool Name="VFPreLinkEventTool"/>
-				<Tool Name="VFPreBuildEventTool" CommandLine="copy &quot;..\..\..\dynamic_library\binary\dll_x64.lib&quot;  &quot;.\lib\&quot;"/>
+				<Tool Name="VFPreBuildEventTool" CommandLine="if not exist .\lib md .\lib&#xA;copy &quot;..\..\..\dynamic_library\binary\dll_x64.lib&quot;  &quot;.\lib\&quot;"/>
 				<Tool Name="VFPostBuildEventTool"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration></Configurations>
 	<Files>

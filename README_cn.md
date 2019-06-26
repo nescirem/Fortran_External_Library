@@ -46,6 +46,12 @@ fortran在链接到第三方链接库时较为麻烦的一点是：在编译时�
 
 ### Linux
 
+```bash
+git clone https://github.com/nescirem/Fortran_External_Library.git
+cd Fortran_External_Library
+chmod -R 711 ./
+```
+
 自动选择编译器并构建（Intel fortran或GUN fortran）：
 
 ```bash
@@ -80,4 +86,6 @@ fortran在链接到第三方链接库时较为麻烦的一点是：在编译时�
 [[pirpyn](https://github.com/pirpyn)]: [Fortran-Project-Template](https://github.com/pirpyn/Fortran-Project-Template)
 
 \[臭石头雪球]: http://v.fcode.cn/
+
+\[Neo Insight!]: https://www.avex.idv.tw/?p=243
 

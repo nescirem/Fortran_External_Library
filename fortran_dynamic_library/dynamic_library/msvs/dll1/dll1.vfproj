@@ -21,7 +21,7 @@
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true"/>
 				<Tool Name="VFCustomBuildTool"/>
 				<Tool Name="VFPreLinkEventTool"/>
-				<Tool Name="VFPreBuildEventTool"/>
+				<Tool Name="VFPreBuildEventTool" CommandLine="if not exist ..\..\..\public_solution\binary md ..\..\..\public_solution\binary"/>
 				<Tool Name="VFPostBuildEventTool" CommandLine="copy &quot;$(OutDir)\dll_x86.dll&quot;  &quot;..\..\..\public_solution\binary\&quot;"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
 		<Configuration Name="Debug|x64" ConfigurationType="typeDynamicLibrary">
@@ -41,7 +41,7 @@
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TargetEnvironment="midlTargetAMD64"/>
 				<Tool Name="VFCustomBuildTool"/>
 				<Tool Name="VFPreLinkEventTool"/>
-				<Tool Name="VFPreBuildEventTool"/>
+				<Tool Name="VFPreBuildEventTool" CommandLine="if not exist ..\..\..\public_solution\binary md ..\..\..\public_solution\binary"/>
 				<Tool Name="VFPostBuildEventTool" CommandLine="copy &quot;$(OutDir)\dll_x64.dll&quot;  &quot;..\..\..\public_solution\binary\&quot;"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration></Configurations>
 	<Files>

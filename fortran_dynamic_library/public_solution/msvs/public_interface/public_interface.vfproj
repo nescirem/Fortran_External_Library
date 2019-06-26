@@ -11,8 +11,8 @@
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true"/>
 				<Tool Name="VFCustomBuildTool"/>
 				<Tool Name="VFPreLinkEventTool"/>
-				<Tool Name="VFPreBuildEventTool"/>
-				<Tool Name="VFPostBuildEventTool" CommandLine="copy &quot;$(IntDir)\*.mod&quot;  &quot;..\public_code\include\x86d\&quot;"/>
+				<Tool Name="VFPreBuildEventTool" CommandLine="if not exist ..\public_code\include md ..\public_code\include"/>
+				<Tool Name="VFPostBuildEventTool" CommandLine="if not exist ..\public_code\include\x86d md ..\public_code\include\x86d&#xA;copy &quot;$(IntDir)\*.mod&quot;  &quot;..\public_code\include\x86d\&quot;"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
 		<Configuration Name="Release|Win32" ConfigurationType="typeDynamicLibrary">
 				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" RuntimeLibrary="rtMultiThreadedDLL"/>
@@ -21,8 +21,8 @@
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true"/>
 				<Tool Name="VFCustomBuildTool"/>
 				<Tool Name="VFPreLinkEventTool"/>
-				<Tool Name="VFPreBuildEventTool"/>
-				<Tool Name="VFPostBuildEventTool" CommandLine="copy &quot;$(IntDir)\*.mod&quot;  &quot;..\public_code\include\x86\&quot;"/>
+				<Tool Name="VFPreBuildEventTool" CommandLine="if not exist ..\public_code\include md ..\public_code\include"/>
+				<Tool Name="VFPostBuildEventTool" CommandLine="if not exist ..\public_code\include\x86 md ..\public_code\include\x86&#xA;copy &quot;$(IntDir)\*.mod&quot;  &quot;..\public_code\include\x86\&quot;"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
 		<Configuration Name="Debug|x64" ConfigurationType="typeDynamicLibrary">
 				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" WarnInterfaces="true" Traceback="true" BoundsCheck="true" StackFrameCheck="true" RuntimeLibrary="rtMultiThreadedDebugDLL"/>
@@ -31,8 +31,8 @@
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TargetEnvironment="midlTargetAMD64"/>
 				<Tool Name="VFCustomBuildTool"/>
 				<Tool Name="VFPreLinkEventTool"/>
-				<Tool Name="VFPreBuildEventTool"/>
-				<Tool Name="VFPostBuildEventTool" CommandLine="copy &quot;$(IntDir)\*.mod&quot;  &quot;..\public_code\include\x64d\&quot;"/>
+				<Tool Name="VFPreBuildEventTool" CommandLine="if not exist ..\public_code\include md ..\public_code\include"/>
+				<Tool Name="VFPostBuildEventTool" CommandLine="if not exist ..\public_code\include\x64d md ..\public_code\include\x64d&#xA;copy &quot;$(IntDir)\*.mod&quot;  &quot;..\public_code\include\x64d\&quot;"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
 		<Configuration Name="Release|x64" TargetName="public_interface" ConfigurationType="typeDynamicLibrary">
 				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" RuntimeLibrary="rtMultiThreadedDLL"/>
@@ -41,8 +41,8 @@
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TargetEnvironment="midlTargetAMD64"/>
 				<Tool Name="VFCustomBuildTool"/>
 				<Tool Name="VFPreLinkEventTool"/>
-				<Tool Name="VFPreBuildEventTool"/>
-				<Tool Name="VFPostBuildEventTool" CommandLine="copy &quot;$(IntDir)\*.mod&quot;  &quot;..\public_code\include\x64\&quot;"/>
+				<Tool Name="VFPreBuildEventTool" CommandLine="if not exist ..\public_code\include md ..\public_code\include"/>
+				<Tool Name="VFPostBuildEventTool" CommandLine="if not exist ..\public_code\include\x64 md ..\public_code\include\x64&#xA;copy &quot;$(IntDir)\*.mod&quot;  &quot;..\public_code\include\x64\&quot;"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration></Configurations>
 	<Files>
 		<Filter Name="src" Filter="f90;for;f;fpp;ftn;def;odl;idl">
