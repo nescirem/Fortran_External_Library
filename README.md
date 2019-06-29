@@ -2,7 +2,7 @@
 
 ![](https://img.shields.io/badge/platform-linux%20|%20windows-lightgrey.svg) ![](https://img.shields.io/badge/license-MIT-blue.svg)
 
-Compile and the usage of third-party static library & dynamic library. [[中文](./README_cn.md)]
+Compile and the usage of third-party Fortran static library & dynamic library. [[中文](./README_cn.md)]
 
 
 
@@ -16,7 +16,7 @@ Compile and the usage of third-party static library & dynamic library. [[中文]
 
 ### Windows
 
-open `lib.sln` or `dll.sln` with visual studio (>2013)  which is located in `.\fortran_{Type_of_library}\{Type_of_library}\msvs\` :
+open `lib.sln` or `dll.sln` with visual studio (>2010 sp1)  which is located in `.\fortran_{Type_of_library}\{Type_of_library}\msvs\` :
 
 **Build - Batch Build - Select all - Build**
 
@@ -32,7 +32,7 @@ cd Fortran_External_Library
 chmod -R 711 ./
 ```
 
-Intel fortran and GNU fortran is supported.
+Intel Fortran and GNU Fortran is supported.
 
 ```bash
 ./fortran_dynamic_library/build.sh
@@ -52,6 +52,35 @@ Remember to clean:
 ./fortran_dynamic_library/clean_all.sh
 ./fortran_static_library/clean_all.sh
 ```
+
+
+
+## Test
+
+### Windows
+
+Not recommended. If you want to use this PowerShell script, read help first:
+
+```powershell
+.\test_all.ps1 -h
+```
+
+>  Currently Intel Fortran projects (.vfproj) do not support MSBuild. So this PowerShell script uses devenv.exe to open the *.sln file which includes Intel Fortran projects and wait for the user to build it manually.
+
+### Linux
+
+Use python script to compile and test.
+
+```python
+python test_all.py
+```
+
+
+
+## To do
+
+- [ ] A more practical case
+- [ ] Linking third party Fortran static  library with C++
 
 
 
