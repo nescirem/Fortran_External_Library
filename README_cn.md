@@ -108,3 +108,9 @@ python test_all.py
 
 \[Neo Insight!]: https://www.avex.idv.tw/?p=243
 
+\[Calling Fortran from C/C++]: https://medium.com/@waltermateriais/calling-fortran-from-c-c-aa32867bde20
+
+\[Calling C++ (cpp objects) from a Fortran subroutine]: (https://software.intel.com/en-us/forums/intel-visual-fortran-compiler-for-windows/topic/734563)
+
+\[C++ Calls in Fortran]: https://modelingguru.nasa.gov/docs/DOC-2642
+

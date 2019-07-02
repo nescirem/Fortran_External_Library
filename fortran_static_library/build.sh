@@ -29,10 +29,12 @@ else
 	sudo=""
 fi
 
+# make clean
 echo -e "$yellow clean$none"
 cd $shpath/public_solution && make clean
 cd $shpath/static_library && make clean
 
+# make static library
 echo -e "$green build static library 'liblib.a'$none"
 cd $shpath/static_library
 make all FC=$Compiler
@@ -43,6 +45,7 @@ fi
 sudo mkdir ./library
 sudo mv -f $shpath/static_library/liblib.a ./library/
 
+# make executable program linking to the static library
 echo -e "$green build executable file 'main'$none"
 cd $shpath/public_solution
 make all FC=$Compiler DDBUG=$DEBUG
@@ -50,6 +53,7 @@ make all FC=$Compiler DDBUG=$DEBUG
 echo  -e "$green Done.$none"
 echo
 
+# run test
 sleep 1
 echo  -e "$green Run executable file './public_solution/binary/main'$none"
 echo " --------------------------------"

@@ -1,6 +1,6 @@
-# Basic Makefile for Fortran 90/95 projects where modules are
-# locate in $(MOD_DIR) directory, procedures in $(SRC_DIR)
-# and the main program is $(PROGRAM)
+# Basic Makefile for Fortran 90/95 projects where external modules are
+# locate in $(MOD_DIR) directory, Fortran external dynamic library is $(LIB) 
+# procedures in $(SRC_DIR), and the main program is $(PROGRAM)
 # The .o and .mod are created in $(OBJ_DIR) directory
 SHELL:=/bin/bash
 SUFFIXES:=.f90
@@ -9,7 +9,7 @@ SUFFIXES:=.f90
 .SUFFIXES: $(SUFFIXES) .o
 
 BIN_DIR:=binary
-# Basename of main program without extention (assumed .f90)
+# Basename of main program
 PROGRAM:=main
 # Where the interface modules are
 MOD_DIR:=src/interface
@@ -17,7 +17,7 @@ MOD_DIR:=src/interface
 SRC_DIR:=src
 # Where to put .o .mod files
 OBJ_DIR:=objects
-# name of the library
+# name of the dynamic library
 LIB:=libdll.so
 
 # Compiler Flags

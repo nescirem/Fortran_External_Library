@@ -1,21 +1,21 @@
-# Basic Makefile for Fortran 90/95 projects where modules are
-# locate in $(MOD_DIR) directory, procedures in $(SRC_DIR)
-# and the main program is $(PROGRAM)
+# Basic Makefile for Fortran 90/95 dynamic library projects where 
+# external modules are locate in $(MOD_DIR) directory, procedures
+# are locate in $(SRC_DIR), and the built static library is $(LIBRARY)
 # The .o and .mod are created in $(OBJ_DIR) directory
 SHELL:=/bin/bash
 SUFFIXES:=.f90
 
 .SUFFIXES: # clear the suffixes
 .SUFFIXES: $(SUFFIXES) .o
-# Basename of main program without extention (assumed .f90)
+# Name of the static library without extension (assumed .a)
 LIBRARY:=liblib
-# Where other files are
+# Where source files are here
 SRC_DIR:=src
 # Where the modules are
 MOD_DIR:=src/lib_in_lib
 # Where to put .o .mod files
 OBJ_DIR:=objects
-# name of the library
+# name of the library build-in
 LIB:=lib_in_lib.a
 
 # Compiler Flags
@@ -80,13 +80,13 @@ $(OBJ_DIR)/%.o: %.f90
 	@echo 'make: Compiling' $<
 	@$(FC) $(LDFLAGS) $(OPTIMIZE) $(FCFLAGS) -o $@ -c $<
 
+# Creating the library build-in
 $(OBJ_DIR)/$(LIB): $(MOD_OBJECTS) $(OBJECTS)
 	@echo 'make: Creating the library $@'
 	@ar rv $@ $^
 	@echo 'make: Library $@ successfuly created'
 
-# Creating the .lib
-
+# Creating the static library
 $(LIBRARY): $(ALL_OBJECTS)  $(OBJ_DIR)/$(LIB)
 	@echo 'make: Stacticly linking objects'
 	@ar rv $@.a $^

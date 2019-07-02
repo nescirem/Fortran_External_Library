@@ -1,13 +1,12 @@
-# Basic Makefile for Fortran 90/95 projects where modules are
-# locate in $(MOD_DIR) directory, procedures in $(SRC_DIR)
-# and the main program is $(PROGRAM)
+# Basic Makefile for Fortran 90/95 dynamic library projects where procedures are
+# locate in $(SRC_DIR), and the built dynamic library is $(LIBRARY)
 # The .o and .mod are created in $(OBJ_DIR) directory
 SHELL:=/bin/bash
 SUFFIXES:=.f90
 
 .SUFFIXES: # clear the suffixes
 .SUFFIXES: $(SUFFIXES) .o
-# Name of the dynamic library without extention (assumed .so)
+# Name of the dynamic library without extension (assumed .so)
 LIBRARY:=libdll
 # Where source files are here
 SRC_DIR:=src
@@ -70,7 +69,7 @@ $(OBJ_DIR):
 		echo 'make: Creating $(OBJ_DIR)/';\
 		mkdir $(OBJ_DIR) ;	fi
 
-# Creating the .so
+# Creating the dynamic library
 $(LIBRARY): $(OBJECTS)
 	@echo 'make: Dynamically linking objects'
     

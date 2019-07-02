@@ -29,16 +29,19 @@ else
 	sudo=""
 fi
 
+# make clean
 echo -e "$yellow clean$none"
 cd $shpath/public_solution && make clean
 cd $shpath/dynamic_library && make clean
 
+# make dynamic library
 echo -e "$green build dynamic library 'libdll.so'$none"
 cd $shpath/dynamic_library
 make all FC=$Compiler
 #sudo cp -rf libdll.so /usr/lib/
 sudo mv -f libdll.so ../public_solution/
 
+# make executable program linking to the dynamic library
 echo -e "$green build executable file 'main'$none"
 cd $shpath/public_solution
 make all FC=$Compiler DDBUG=$DEBUG
@@ -52,6 +55,7 @@ sudo mv -f libdll.so ./library/
 echo  -e "$green Done.$none"
 echo
 
+# run test
 sleep 1
 echo  -e "$green Run executable file './public_solution/binary/main'$none"
 echo -e " --------------------------------"
