@@ -21,6 +21,9 @@
     <ClCompile Include="..\..\src\public_proc.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\platform.inc">
+      <Filter>头文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\public_proc.h">

@@ -50,6 +50,7 @@ def main():
     err_tcount = 0
     
     LANG="fortran"
+    
     # Fortran STATIC LIBRARY
     modes = createDeck(LANG)
     modes.append(('',''))
@@ -63,8 +64,15 @@ def main():
     print ('', flush=True)
     
     LANG="cpp"
+    
     # C++ STATIC LIBRARY
     LIBRARY="STATIC_LIBRARY"
+    modes = createDeck(LANG)
+    err_tcount += test_modes()
+    print ('', flush=True)
+    
+    # C++ DYNAMIC LIBRARY
+    LIBRARY="DYNAMIC_LIBRARY"
     modes = createDeck(LANG)
     err_tcount += test_modes()
     
@@ -90,6 +98,7 @@ def clean_all():
     bash( c="./fortran_static_library/clean_all.sh", _timeout=2 )
     bash( c="./fortran_dynamic_library/clean_all.sh", _timeout=2 )
     bash( c="./cpp_static_library/clean_all.sh", _timeout=2 )
+    bash( c="./cpp_dynamic_library/clean_all.sh", _timeout=2 )
     #------------------------------------------------------
 	# add script here
 	#------------------------------------------------------

@@ -64,6 +64,7 @@ chmod -R 711 ./
 ./fortran_dynamic_library/build.sh
 ./fortran_static_library/build.sh
 ./cpp_static_library/build.sh
+./cpp_dynamic_library/build.sh
 ```
 
 或指定编译器与释出模式构建：
@@ -72,6 +73,7 @@ chmod -R 711 ./
 ./fortran_dynamic_library/build.sh ifort release
 ./fortran_static_library/build.sh gfortran debug
 ./cpp_static_library/build.sh debug
+./cpp_dynamic_library/build.sh release
 ```
 
 清理：
@@ -80,6 +82,7 @@ chmod -R 711 ./
 ./fortran_dynamic_library/clean_all.sh
 ./fortran_static_library/clean_all.sh
 ./cpp_static_library/clean_all.sh
+./cpp_dynamic_library/clean_all.sh
 ```
 
 你也可以选择使用python脚本构建并测试所有二进制文件：
@@ -94,8 +97,8 @@ python test_all.py
 
 ## To do
 
+- [x] Linux平台下C ++链接到第三方Fortran动态链接库
 - [ ] 更加具体的案例
-- [ ] Linux平台下C ++链接到第三方Fortran动态链接库
 
 
 

@@ -1,6 +1,6 @@
-# Basic Makefile for Fortran 90/95 projects where external 
-# static library is $(LIB) procedures in $(SRC_DIR), and 
-# the main program is $(PROGRAM)
+# Basic Makefile for Fortran 90/95 projects where external modules are
+# locate in $(MOD_DIR) directory, Fortran external dynamic library is $(LIB) 
+# procedures in $(SRC_DIR), and the main program is $(PROGRAM)
 # The .o and .mod are created in $(OBJ_DIR) directory
 SHELL:=/bin/bash
 SUFFIXES:=.cpp
@@ -9,19 +9,18 @@ SUFFIXES:=.cpp
 .SUFFIXES: $(SUFFIXES) .o
 
 BIN_DIR:=binary
-# Basename of main program without extention (assumed .cpp)
+# Basename of main program
 PROGRAM:=main
 # Where public source files are
 SRC_DIR:=src
 # Where to put .o .mod files
 OBJ_DIR:=objects
-# path to the library
-LIB_DIR:=library
-# name of the library
-LIB:=liblib.a
+LIB_DIR:=./
+# name of the dynamic library
+LIB:=libdll.so
 
 # Compiler Flags
-LDFLAGS:= -Wall -Werror -Wextra
+LDFLAGS:= -Wall -Wextra
 ifeq ($(CXX),g++)
     # do nothing
 # else ifeq ($(CXX),icc)
@@ -45,7 +44,7 @@ else
     OPTIMIZE:= -O2
 endif
 ifeq ($(CXX),g++)
-    FCFLAGS:=-I$(SRC_DIR)
+    FCFLAGS:=-I$(SRC_DIR) -L$(LIB_DIR)
 # else
     # FCFLAGS:=
 endif
@@ -57,7 +56,7 @@ OBJECTS:=	$(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%,\
 
 .PHONY: clean all info depend
 
-VPATH:=$(OBJ_DIR) $(MOD_DIR) $(SRC_DIR)
+VPATH:=$(OBJ_DIR) $(SRC_DIR)
 
 # Default rule
 # Display info, create $(OBJ_DIR),
@@ -68,12 +67,12 @@ all: info depend $(PROGRAM)
 # Display some info
 info:
 	@echo "make: Compiler options:"
-	@echo "make: Compiler = $(CXX)"
+	@echo "make: Compiler = $(FC)"
 	@echo "make: DDBUG = $(DDBUG)"
 	@echo "make: OPTIMIZE = $(OPTIMIZE)"
 	@echo "make: FCFLAGS = $(FCFLAGS)"
 	@echo "make: LDFLAGS = $(LDFLAGS)"
-		
+	
 # Rule for the $(BIN_DIR) directory
 $(BIN_DIR):
 	@if [ ! -d $(BIN_DIR) ]; then \
@@ -93,12 +92,12 @@ depend: $(BIN_DIR) $(OBJ_DIR)
 # Rule for all file. Look at VPATH variable
 $(OBJ_DIR)/%.o: %.cpp
 	@echo 'make: Compiling' $<
-	@$(CXX) $(LDFLAGS) $(OPTIMIZE) $(FCFLAGS) -o $@ -c $<
+	@$(FC) $(OPTIMIZE) $(LDFLAGS) $(FCFLAGS) -o $@ -c $<
 
 # Creating the executable file
-$(PROGRAM): $(OBJECTS) $(LIB_DIR)/$(LIB)
+$(PROGRAM): $(OBJECTS) $(LIB)
 	@echo 'make: Stacticly linking objects'
-	@$(CXX) $(LDFLAGS) $(OPTIMIZE) -g $^ -o $(BIN_DIR)/$@ -lgfortran
+	@$(FC) $(OPTIMIZE) $(LDFLAGS) $(FCFLAGS) -o $(BIN_DIR)/$@ $^ -ldl
 	@echo 'make: Program '$@' successfuly created.'
 
 clean:

@@ -42,6 +42,7 @@ For the cases of C++ link to Fortran external library, only GNU Fortran with g++
 
 ```bash
 ./cpp_static_library/build.sh
+./cpp_dynamic_library/build.sh
 ```
 
 or you can specify compiler and debug mode like this:
@@ -50,6 +51,7 @@ or you can specify compiler and debug mode like this:
 ./fortran_dynamic_library/build.sh ifort release
 ./fortran_static_library/build.sh gfortran debug
 ./cpp_static_library/build.sh debug
+./cpp_dynamic_library/build.sh release
 ```
 
 Remember to clean:
@@ -58,6 +60,7 @@ Remember to clean:
 ./fortran_dynamic_library/clean_all.sh
 ./fortran_static_library/clean_all.sh
 ./cpp_static_library/clean_all.sh
+./cpp_dynamic_library/clean_all.sh
 ```
 
 
@@ -86,8 +89,8 @@ python test_all.py
 
 ## To do
 
+- [x] Linking third party Fortran dynamic library with C++ (linux)
 - [ ] A more practical case
-- [ ] Linking third party Fortran dynamic library with C++ (linux)
 
 
 

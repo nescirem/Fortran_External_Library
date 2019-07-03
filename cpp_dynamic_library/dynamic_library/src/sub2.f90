@@ -1,5 +1,6 @@
-subroutine sub2()
-    !DEC$ ATTRIBUTES DLLEXPORT :: SUB2
+subroutine sub2() bind(c,name='SUB2')
+    !DEC$ ATTRIBUTES DLLEXPORT  :: SUB2
+    use,intrinsic       :: iso_c_binding
     implicit none
     
     include 'just_inculde_me.inc'

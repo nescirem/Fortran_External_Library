@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\platform.inc" />
     <ClCompile Include="..\..\src\public_proc.cpp" />
   </ItemGroup>
   <ItemGroup>
