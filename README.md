@@ -16,11 +16,11 @@ Compile and the usage of third-party Fortran static library & dynamic library. [
 
 ### Windows
 
-open `lib.sln` or `dll.sln` with visual studio (>2010 sp1)  which is located in `.\fortran_{Type_of_library}\{Type_of_library}\msvs\` :
+open `lib.sln` or `dll.sln` with visual studio (>2010 sp1)  which is located in `.\{language}_{Type_of_library}\{Type_of_library}\msvs\` :
 
 **Build - Batch Build - Select all - Build**
 
-then similar operations with `public_code.sln` which is located in `.\fortran_{Type_of_library}\public_solution\msvs\` 
+then similar operations with `public_code.sln` which is located in `.\{language}_{Type_of_library}\public_solution\msvs\` 
 
 the binary file is located in `.\public_solution\binary\`
 
@@ -32,11 +32,16 @@ cd Fortran_External_Library
 chmod -R 711 ./
 ```
 
-Intel Fortran and GNU Fortran is supported.
+For the cases of Fortran link to Fortran external library, Intel Fortran and GNU Fortran is supported:
 
 ```bash
 ./fortran_dynamic_library/build.sh
 ./fortran_static_library/build.sh
+```
+For the cases of C++ link to Fortran external library, only GNU Fortran with g++ is supported:
+
+```bash
+./cpp_static_library/build.sh
 ```
 
 or you can specify compiler and debug mode like this:
@@ -44,6 +49,7 @@ or you can specify compiler and debug mode like this:
 ```bash
 ./fortran_dynamic_library/build.sh ifort release
 ./fortran_static_library/build.sh gfortran debug
+./cpp_static_library/build.sh debug
 ```
 
 Remember to clean:
@@ -51,6 +57,7 @@ Remember to clean:
 ```bash
 ./fortran_dynamic_library/clean_all.sh
 ./fortran_static_library/clean_all.sh
+./cpp_static_library/clean_all.sh
 ```
 
 
@@ -80,7 +87,7 @@ python test_all.py
 ## To do
 
 - [ ] A more practical case
-- [ ] Linking third party Fortran static library with C++
+- [ ] Linking third party Fortran dynamic library with C++ (linux)
 
 
 
@@ -103,4 +110,8 @@ All codes are released under [MIT](./LICENSE) license except `make_depends_tree.
 \[Calling C++ (cpp objects) from a Fortran subroutine]: (https://software.intel.com/en-us/forums/intel-visual-fortran-compiler-for-windows/topic/734563)
 
 \[C++ Calls in Fortran]: https://modelingguru.nasa.gov/docs/DOC-2642
+
+\[Using C/C++ and Fortran together]: http://www.yolinux.com/TUTORIALS/LinuxTutorialMixingFortranAndC.html
+
+\[C++向Fortran链接库中传递字符串]: http://bbs.fcode.cn/thread-1117-1-1.html
 

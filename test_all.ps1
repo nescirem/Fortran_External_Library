@@ -87,7 +87,7 @@ function build-sln($PathRecv) {
 	}
 	
 	if ($builded -eq $false) { 
-		$str=$libtype -replace "_"," "
+		$str=$libType -replace "_"," "
 		write-output "Missing $str, rebuild!"
 		Invoke-Item $pathf
 		write-host "Please Build all projects manualy!" -ForegroundColor White -BackgroundColor Blue
@@ -103,34 +103,26 @@ function clean-all() {
 	function Get-ScriptDirectory { Split-Path $MyInvocation.ScriptName }
 	write-host "Clean" -ForegroundColor Yellow
 	write-output ""
-	#------------------------------------------------------
-	$ScriptPath="fortran_static_library\clean_all.ps1"
-	write-output "FORTRAN_STATIC_LIBRARY"
-	$script=join-path (Get-ScriptDirectory) $ScriptPath
-	. $script
-	set-location $PSScriptRoot
-	#------------------------------------------------------
-	$ScriptPath="fortran_dynamic_library\clean_all.ps1"
-	write-output ""
-	write-output "FORTRAN_DYNAMIC_LIBRARY"
-	$script=join-path (Get-ScriptDirectory) $ScriptPath
-	. $script
-	set-location $PSScriptRoot
-	#------------------------------------------------------
-	# add script here
-	#------------------------------------------------------
+	$LangLibType="fortran_static","fortran_dynamic","cpp_static","cpp_dynamic"
+	foreach ($llt in $LangLibType) {
+		$ScriptPath=$llt+"_library\clean_all.ps1"
+		write-output ($llt+"_LIBRARY").ToUpper()
+		$script=join-path (Get-ScriptDirectory) $ScriptPath
+		. $script
+		set-location $PSScriptRoot
+	}
 	write-output ""
 	write-host "Done." -ForegroundColor Green
 	write-output ""
 }
 
 function select-mode($cmmod) {
-	$libmode=$libtype.ToUpper()
+	$libmode=$libType.ToUpper()
 	switch ($cmmod) {
-		"main.exe" {$result=$libmode+" release x64: "}
-		"maind.exe" {$result=$libmode+" debug x64: "}
-		"main_x86.exe" {$result=$libmode+" release x86: "}
-		"maind_x86.exe" {$result=$libmode+" debug x86: "}
+		"main.exe" {$result="["+$lang+"] "+$libmode+" release x64: "}
+		"maind.exe" {$result="["+$lang+"] "+$libmode+" debug x64: "}
+		"main_x86.exe" {$result="["+$lang+"] "+$libmode+" release x86: "}
+		"maind_x86.exe" {$result="["+$lang+"] "+$libmode+" debug x86: "}
 	}
 	$result;
 }
@@ -154,13 +146,40 @@ function test-exec($PathRecv) {
 	}
 }
 
+function try-build($libType) {
+	if ($b) { 
+		if ($libType -eq "static_library") {
+			$solutionf="lib.sln"
+			$fileNames="lib_x64.lib","lib_x86.lib"
+		} else {
+			$solutionf="dll.sln"
+			$fileNames="dll_x64.dll","dll_x86.dll","dll_x64.lib","dll_x86.lib"
+		}
+		$pathf=$pathl+"msvs\"+$solutionf
+		$PathSend=$pathl+"binary\"
+			
+		build-sln($PathSend)
+
+		$solutionf="public_code.sln"
+		$pathf=$pathp+"msvs\"+$solutionf
+		if ($libType -eq "dynamic_library") {
+			$fileNames=$exef+"dll_x64.dll"+"dll_x86.dll"
+		} else { 
+			$fileNames=$exef 
+		}
+		$PathSend=$pathp+"binary\"
+			
+		build-sln($PathSend)
+	}
+}
+
 ###########################################################
 # global variables
 <#
 $str		- [string] 	- Temp string
 $expected	- [string] 	- The expected output of the executable file
 $exef		- [list]	- Executable file names
-$libtype	- [string]	- Library type
+$libType	- [string]	- Library type
 $pathp		- [string]	- Relative path to public_solution directory
 $pathl		- [string]	- Relative path to the {LIBRARY} directory
 $solutionf	- [string]	- The name of the Microsoft Visual Studio solution file
@@ -194,67 +213,28 @@ if ($c) {
 	if ( -not ($b) ) { break }
 }
 
-#------------------------------------------------------
-$str=get-content ".\expect\lib_expect.txt"
-$expected=clean-str($str)
-
-
+# test all
 $exef="main.exe", "maind.exe", "main_x86.exe", "maind_x86.exe"
-$libtype="static_library"
-$pathp=".\fortran_"+$libtype+"\public_solution\"
-$pathl=".\fortran_"+$libtype+"\"+$libtype+"\"
-
-if ($b) { 
-	$solutionf="lib.sln"
-	$pathf=$pathl+"msvs\"+$solutionf
-	$fileNames="lib_x64.lib","lib_x86.lib"
-	$PathSend=$pathl+"binary\"
-
-	build-sln($PathSend)
-
-	$solutionf="public_code.sln"
-	$pathf=$pathp+"msvs\"+$solutionf
-	$fileNames=$exef
-	$PathSend=$pathp+"binary\"
-
-	build-sln($PathSend)
+$langs="fortran","cpp"
+$libTypes="static_library","dynamic_library"
+foreach ($lang in $langs) {
+	foreach ($libType in $libTypes) {
+		if ($libType -eq "static_library") {
+			$str=get-content ".\expect\lib_expect.txt"
+		} else {
+			$str=get-content ".\expect\dll_expect.txt"
+		}
+		$expected=clean-str($str)
+		$pathp=".\"+$lang+"_"+$libType+"\public_solution\"
+		$pathl=".\"+$lang+"_"+$libType+"\"+$libType+"\"
+		$pathf=
+		$fileNames=
+		$PathSend=
+		try-build($libType)
+		if ($t) {
+			$PathSend=$pathp+"binary\"
+			test-exec($PathSend)
+		}
+		write-output ""
+	}
 }
-
-if ($t) {
-	$PathSend=$pathp+"binary\"
-	test-exec($PathSend)
-}
-write-output ""
-#------------------------------------------------------
-$str=get-content ".\expect\dll_expect.txt"
-$expected=clean-str($str)
-
-$exef="main.exe", "maind.exe", "main_x86.exe", "maind_x86.exe"
-$libtype="dynamic_library"
-$pathp=".\fortran_"+$libtype+"\public_solution\"
-$pathl=".\fortran_"+$libtype+"\"+$libtype+"\"
-
-if ($b) { 
-	$solutionf="dll.sln"
-	$pathf=$pathl+"msvs\"+$solutionf
-	$fileNames="dll_x64.dll","dll_x86.dll","dll_x64.lib","dll_x86.lib"
-	$PathSend=$pathl+"binary\"
-	
-	build-sln($PathSend)
-
-	$solutionf="public_code.sln"
-	$pathf=$pathp+"msvs\"+$solutionf
-	$fileNames=$exef+"dll_x64.dll"+"dll_x86.dll"
-	$PathSend=$pathp+"binary\"
-	
-	build-sln($PathSend)
-}
-
-if ($t) {
-	$PathSend=$pathp+"binary\"
-	test-exec($PathSend)
-}
-write-output ""
-#------------------------------------------------------
-# add another build and test here
-#------------------------------------------------------

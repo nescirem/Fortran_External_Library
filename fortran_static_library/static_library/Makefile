@@ -19,10 +19,14 @@ OBJ_DIR:=objects
 LIB:=lib_in_lib.a
 
 # Compiler Flags
+LDFLAGS:= -fbacktrace -Wall -Wextra -Wno-maybe-uninitialized -Wno-unused-function -pedantic -std=f2008ts
 ifeq ($(FC),gfortran)
-    LDFLAGS:= -fbacktrace -Wall -Wextra -Wno-maybe-uninitialized -Wno-unused-function -pedantic -std=f2008ts
-else
+    # do nothing
+else ifeq ($(FC),ifort)
     LDFLAGS:= -std15 -static-intel
+else
+    $(info Unknown Compiler "$(FC)", set default 'gfortran')
+    FC=gfortran
 endif
 ifeq ($(FC),gfortran)
     FCFLAGS:=-I$(OBJ_DIR) -J$(OBJ_DIR)

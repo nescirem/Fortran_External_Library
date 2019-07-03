@@ -3,11 +3,15 @@
 
 from sh import bash
 
-def createDeck():
+def createDeck(LANG):
     import itertools
-    FC=['gfortran','ifort']
     DDBUG=['debug','release']
-    return (list(itertools.product(FC,DDBUG)))
+    if LANG == "fortran":
+        FC=['gfortran','ifort']
+        return (list(itertools.product(FC,DDBUG)))
+    else:
+        FC=['g++']
+        return (list(itertools.product(DDBUG,FC)))
 
 def main():
     
@@ -16,11 +20,10 @@ def main():
             expected = read_file("./expect/lib_expect.txt")
         else:
             expected = read_file("./expect/dll_expect.txt")
-        
+            
         expected = pure_str(expected)
         cstrs = str.split( " --------------------------------" )
         result = pure_str(cstrs[-2])
-        
         if expected == result:
             print ('\033[0;32m[PASS]\033[0m', flush=True);  err_code = 0
         else:
@@ -31,31 +34,40 @@ def main():
     def test_modes():
         err_count=0
         for i in modes:
-            bash( c='./fortran_'+LIBRARY.lower()+'/clean_all.sh', _timeout=2 )
+            bash( c='./'+LANG+'_'+LIBRARY.lower()+'/clean_all.sh', _timeout=2 )
             app_cmd = i[0]+' '+i[1]
             if app_cmd.isspace():
-                print ( LIBRARY+' DEFAULT', end=": ", flush=True)
+                print ('['+LANG+'] '+LIBRARY+' DEFAULT', end=": ", flush=True)
             else:
-                print ( LIBRARY+' '+app_cmd, end=": ", flush=True)
-            str = bash( c='./fortran_'+LIBRARY.lower()+'/build.sh '+app_cmd, _timeout=10 )
+                print ('['+LANG+'] '+LIBRARY+' '+app_cmd, end=": ", flush=True)
+            str = bash( c='./'+LANG+'_'+LIBRARY.lower()+'/build.sh '+app_cmd, _timeout=10 )
             err_count += test_library(str)
         return err_count
+    
         
     print ('', flush=True)
     
-    modes = createDeck()
-    modes.append(('',''))
-    
     err_tcount = 0
-    # STATIC LIBRARY
+    
+    LANG="fortran"
+    # Fortran STATIC LIBRARY
+    modes = createDeck(LANG)
+    modes.append(('',''))
     LIBRARY="STATIC_LIBRARY"
     err_tcount += test_modes()
-    
     print ('', flush=True)
     
-    # DYNAMIC LIBRARY
+    # Fortran DYNAMIC LIBRARY
     LIBRARY="DYNAMIC_LIBRARY"
     err_tcount += test_modes()
+    print ('', flush=True)
+    
+    LANG="cpp"
+    # C++ STATIC LIBRARY
+    LIBRARY="STATIC_LIBRARY"
+    modes = createDeck(LANG)
+    err_tcount += test_modes()
+    
     
     clean_all()
     
@@ -77,6 +89,10 @@ def pure_str(str):
 def clean_all():
     bash( c="./fortran_static_library/clean_all.sh", _timeout=2 )
     bash( c="./fortran_dynamic_library/clean_all.sh", _timeout=2 )
+    bash( c="./cpp_static_library/clean_all.sh", _timeout=2 )
+    #------------------------------------------------------
+	# add script here
+	#------------------------------------------------------
     print ('', flush=True)
     
 if __name__=="__main__":

@@ -81,7 +81,7 @@
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>$(IFORT_COMPILER19)compiler\lib\ia32_win;$(LibraryPath)</LibraryPath>
     <OutDir>../../binary/</OutDir>
-    <TargetName>manid_x86</TargetName>
+    <TargetName>maind_x86</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>

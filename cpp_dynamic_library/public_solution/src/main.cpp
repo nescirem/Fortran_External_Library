@@ -11,17 +11,19 @@ typedef int(__cdecl * FUNC1)();
 typedef int(__cdecl * FUNC2)();
 
 int test_dll(void){
+	// dynamic load dll
 #ifdef _WIN64
 	HINSTANCE fddLibrary = LoadLibrary(L"dll_x64.dll");
-#else
+#else // _WIN32
 	HINSTANCE fddLibrary = LoadLibrary(L"dll_x86.dll");
-#endif // _WIN32
+#endif
 
 	if (fddLibrary == NULL)
 	{
 		cout << "can't find the dll file" << endl;
 		return -1;
 	}
+	// fetch subroutine/function names in the dll
 	SUB1 sub1 = (SUB1)GetProcAddress(fddLibrary, "SUB1");
 	SUB2 sub2 = (SUB2)GetProcAddress(fddLibrary, "SUB2");
 	FUNC1 func1 = (FUNC1)GetProcAddress(fddLibrary, "FUNC1");

@@ -3,13 +3,13 @@
 # procedures in $(SRC_DIR), and the main program is $(PROGRAM)
 # The .o and .mod are created in $(OBJ_DIR) directory
 SHELL:=/bin/bash
-SUFFIXES:=.f90
+SUFFIXES:=.cpp
 
 .SUFFIXES: # clear the suffixes
 .SUFFIXES: $(SUFFIXES) .o
 
 BIN_DIR:=binary
-# Basename of main program without extention (assumed .f90)
+# Basename of main program without extention (assumed .cpp)
 PROGRAM:=main
 # Where the interface modules are
 MOD_DIR:=src/interface
@@ -23,43 +23,38 @@ LIB_DIR:=library
 LIB:=liblib.a
 
 # Compiler Flags
-LDFLAGS:= -fbacktrace -Wall -Wextra -Wno-maybe-uninitialized -Wno-unused-function -pedantic -std=f2008ts
-ifeq ($(FC),gfortran)
+LDFLAGS:= -Wall -Werror -Wextra
+ifeq ($(CXX),g++)
     # do nothing
-else ifeq ($(FC),ifort)
-    LDFLAGS:= -std15 -static-intel
+# else ifeq ($(CXX),icc)
+    # LDFLAGS:=
 else
-    $(info Unknown Compiler "$(FC)", set default 'gfortran')
-    FC=gfortran
+    $(info Unknown Compiler "$(CXX)", set default 'gfortran')
+    CXX:=g++
 endif
 
 ifndef $(DDBUG)
     OPTIMIZE:= -O2
 endif
 ifeq ($(DDBUG),debug)
-    ifeq ($(FC),gfortran)
-        OPTIMIZE:= -O0 -g3 -Warray-bounds -Wcharacter-truncation -Wline-truncation -Wimplicit-interface -Wimplicit-procedure -Wunderflow -fcheck=all -ffree-line-length-132 -fimplicit-none -fbacktrace -fdump-core -finit-real=nan -std=f2008ts -fall-intrinsics
-    else
-        OPTIMIZE:= -O0 -debug all -check all -warn all -extend-source 132 -traceback -gen-interfaces -fpe-all=0 -fp-stack-check -fstack-protector-all -ftrapuv -no-ftz -std15
+    ifeq ($(CXX),gfortran)
+        OPTIMIZE:= -std=c++11 -O0 -g3 -g -Wpendantic -Wunnused -Wshadow -Wold-style-cast -Wpointer-arith -Wcast-qual -Wmissing-prototypes -Wno-missing-braces
+    # else
+        # OPTIMIZE:= -O0 -g -Wunknown-pragmas -Wunused-function -Wreturn-type
     endif
 else
     DDBUG:=release
     OPTIMIZE:= -O2
 endif
-ifeq ($(FC),gfortran)
-    FCFLAGS:=-I$(OBJ_DIR) -J$(OBJ_DIR)
-else
-    FCFLAGS:=-L$(OBJ_DIR)
+ifeq ($(CXX),g++)
+    FCFLAGS:=-I$(SRC_DIR)
+# else
+    # FCFLAGS:=
 endif
 
 # Getting the .o file name from source code
-MOD_OBJECTS:=	$(patsubst $(MOD_DIR)/%,$(OBJ_DIR)/%,\
-				 					$(patsubst %.f90,%.o,$(shell ../../tools/make_depends_tree.sh $(MOD_DIR)))\
-				  		)
-
-# Getting the .o file name from source code
 OBJECTS:=	$(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%,\
-				 			$(patsubst %.f90,%.o,$(wildcard $(SRC_DIR)/*.f90))\
+				 			$(patsubst %.cpp,%.o,$(wildcard $(SRC_DIR)/*.cpp))\
 				  )
 
 .PHONY: clean all info depend
@@ -75,10 +70,12 @@ all: info depend $(PROGRAM)
 # Display some info
 info:
 	@echo "make: Compiler options:"
-	@echo "make: Compiler = $(FC)"
+	@echo "make: Compiler = $(CXX)"
 	@echo "make: DDBUG = $(DDBUG)"
 	@echo "make: OPTIMIZE = $(OPTIMIZE)"
 	@echo "make: FCFLAGS = $(FCFLAGS)"
+	@echo "make: LDFLAGS = $(LDFLAGS)"
+	@echo "make: OBJECTS = $(OBJECTS)"
 	@echo "make: LDFLAGS = $(LDFLAGS)"
 		
 # Rule for the $(BIN_DIR) directory
@@ -94,18 +91,18 @@ $(OBJ_DIR):
 		mkdir $(OBJ_DIR) ;	fi
 
 # Getting the dependencies of the modules. This produces a file to include
-depend: $(BIN_DIR) $(OBJ_DIR) $(MOD_OBJECTS)
+depend: $(BIN_DIR) $(OBJ_DIR)
 	@echo 'make: Dependancies built'
 
 # Rule for all file. Look at VPATH variable
-$(OBJ_DIR)/%.o: %.f90
+$(OBJ_DIR)/%.o: %.cpp
 	@echo 'make: Compiling' $<
-	@$(FC) $(LDFLAGS) $(OPTIMIZE) $(FCFLAGS) -o $@ -c $<
+	@$(CXX) $(LDFLAGS) $(OPTIMIZE) $(FCFLAGS) -o $@ -c $<
 
 # Creating the executable file
 $(PROGRAM): $(OBJECTS) $(LIB_DIR)/$(LIB)
 	@echo 'make: Stacticly linking objects'
-	@$(FC) $(LDFLAGS) $(OPTIMIZE) $(FCFLAGS) -o $(BIN_DIR)/$@ $^
+	@$(CXX) $(LDFLAGS) $(OPTIMIZE) -g $^ -o $(BIN_DIR)/$@ -lgfortran
 	@echo 'make: Program '$@' successfuly created.'
 
 clean:

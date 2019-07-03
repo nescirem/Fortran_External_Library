@@ -58,11 +58,12 @@ cd Fortran_External_Library
 chmod -R 711 ./
 ```
 
-自动选择编译器并构建（Intel Fortran或GUN Fortran）：
+自动选择编译器并构建（Fortran链接到Fortran第三方链接库的案例支持 Intel Fortran 与 GUN Fortran，而C++链接到Fortran第三方链接库的案例只支持 g++ 链接到 GUN Fortran生成的库）：
 
 ```bash
 ./fortran_dynamic_library/build.sh
 ./fortran_static_library/build.sh
+./cpp_static_library/build.sh
 ```
 
 或指定编译器与释出模式构建：
@@ -70,6 +71,7 @@ chmod -R 711 ./
 ```bash
 ./fortran_dynamic_library/build.sh ifort release
 ./fortran_static_library/build.sh gfortran debug
+./cpp_static_library/build.sh debug
 ```
 
 清理：
@@ -77,9 +79,10 @@ chmod -R 711 ./
 ```bash
 ./fortran_dynamic_library/clean_all.sh
 ./fortran_static_library/clean_all.sh
+./cpp_static_library/clean_all.sh
 ```
 
-你也可以使用python脚本构建并测试所有二进制文件：
+你也可以选择使用python脚本构建并测试所有二进制文件：
 
 ```python
 python test_all.py
@@ -87,10 +90,12 @@ python test_all.py
 
 
 
+
+
 ## To do
 
 - [ ] 更加具体的案例
-- [ ] C ++链接到第三方Fortran静态链接库
+- [ ] Linux平台下C ++链接到第三方Fortran动态链接库
 
 
 
@@ -113,4 +118,8 @@ python test_all.py
 \[Calling C++ (cpp objects) from a Fortran subroutine]: (https://software.intel.com/en-us/forums/intel-visual-fortran-compiler-for-windows/topic/734563)
 
 \[C++ Calls in Fortran]: https://modelingguru.nasa.gov/docs/DOC-2642
+
+\[Using C/C++ and Fortran together]: http://www.yolinux.com/TUTORIALS/LinuxTutorialMixingFortranAndC.html
+
+\[C++向Fortran链接库中传递字符串]: http://bbs.fcode.cn/thread-1117-1-1.html
 
