@@ -2,8 +2,65 @@
 
 ![](https://img.shields.io/badge/platform-linux%20|%20windows-lightgrey.svg) ![](https://img.shields.io/badge/license-MIT-blue.svg)
 
-Compile and the usage of third-party Fortran static library & dynamic library. [[中文](./README_cn.md)]
+Compile Fortran static library & dynamic library, and demonstrate the linking to a third-party Fortran library in C++/Fortran project. [[中文](./README_cn.md)]
 
+<table>
+ <tr align="center">
+  <td>Platform</td>
+  <td>Code</td>
+  <td>Project</td>
+  <td colspan=2>Compilers</td>
+  <td>Build tools</td>
+ </tr>
+ <tr>
+  <td rowspan=4 align="center">Linux</td>
+  <td rowspan=2 align="center">C++</td>
+  <td>Fortran External Library</td>
+  <td align="center">GNU Fortran</td>
+  <td align="center"></td>
+  <td rowspan=4 align="center">GNU make</td>
+ </tr>
+ <tr>
+  <td>C++ Project</td>
+  <td align="center">GCC</td>
+  <td align="center"></td>
+ </tr>
+ <tr>
+  <td rowspan=2 align="center">Fortran</td>
+  <td>Fortran External Library</td>
+  <td align="center">GNU Fortran</td>
+  <td align="center">Intel Fortran</td>
+ </tr>
+ <tr>
+  <td>Fortran Project</td>
+  <td align="center">GNU Fortran</td>
+  <td align="center">Intel Fortran</td>
+ </tr>
+ <tr>
+  <td rowspan=4 align="center">Windows</td>
+  <td rowspan=2 align="center">C++</td>
+  <td>Fortran External Library</td>
+  <td align="center"></td>
+  <td align="center">Intel Fortran</td>
+  <td rowspan=4 align="center">Visual Studio</td>
+ </tr>
+ <tr>
+  <td>C++ Project</td>
+  <td align="center"></td>
+  <td align="center">Intel C++</td>
+ </tr>
+ <tr>
+  <td rowspan=2 align="center">Fortran</td>
+  <td>Fortran External Library</td>
+  <td align="center"></td>
+  <td align="center">Intel Fortran</td>
+ </tr>
+ <tr>
+  <td>Fortran Project</td>
+  <td align="center"></td>
+  <td align="center">Intel Fortran</td>
+ </tr>
+</table>
 
 
 ## Links
@@ -21,7 +78,6 @@ open `lib.sln` or `dll.sln` with visual studio (>2010 sp1)  which is located in 
 **Build - Batch Build - Select all - Build**
 
 then similar operations with `public_code.sln` which is located in `.\{language}_{Type_of_library}\public_solution\msvs\` 
-
 the binary file is located in `.\public_solution\binary\`
 
 ### Linux
