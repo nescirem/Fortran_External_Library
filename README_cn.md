@@ -2,8 +2,67 @@
 
 ![](https://img.shields.io/badge/platform-linux%20|%20windows-lightgrey.svg) ![](https://img.shields.io/badge/license-MIT-blue.svg)
 
-Fortran静态/链接库的编译，其他编程语言链接到Fortran第三方链接库的简单演示。[[English](./README.md)]
+Fortran静态/动态链接库的编译，
+C++或Fortran链接到由Fortran编写的第三方链接库的简单演示，
+以及其多平台项目管理。[[English](./README.md)]
 
+<table>
+ <tr align="center">
+  <td>Platform</td>
+  <td>Code</td>
+  <td>Project</td>
+  <td colspan=2>Compilers</td>
+  <td>Build tools</td>
+ </tr>
+ <tr>
+  <td rowspan=4 align="center">Linux</td>
+  <td rowspan=2 align="center">C++</td>
+  <td>Fortran External Library</td>
+  <td align="center">GNU Fortran</td>
+  <td align="center"></td>
+  <td rowspan=4 align="center">GNU make</td>
+ </tr>
+ <tr>
+  <td>C++ Project</td>
+  <td align="center">GCC</td>
+  <td align="center"></td>
+ </tr>
+ <tr>
+  <td rowspan=2 align="center">Fortran</td>
+  <td>Fortran External Library</td>
+  <td align="center">GNU Fortran</td>
+  <td align="center">Intel Fortran</td>
+ </tr>
+ <tr>
+  <td>Fortran Project</td>
+  <td align="center">GNU Fortran</td>
+  <td align="center">Intel Fortran</td>
+ </tr>
+ <tr>
+  <td rowspan=4 align="center">Windows</td>
+  <td rowspan=2 align="center">C++</td>
+  <td>Fortran External Library</td>
+  <td align="center"></td>
+  <td align="center">Intel Fortran</td>
+  <td rowspan=4 align="center">Visual Studio</td>
+ </tr>
+ <tr>
+  <td>C++ Project</td>
+  <td align="center"></td>
+  <td align="center">Intel C++</td>
+ </tr>
+ <tr>
+  <td rowspan=2 align="center">Fortran</td>
+  <td>Fortran External Library</td>
+  <td align="center"></td>
+  <td align="center">Intel Fortran</td>
+ </tr>
+ <tr>
+  <td>Fortran Project</td>
+  <td align="center"></td>
+  <td align="center">Intel Fortran</td>
+ </tr>
+</table>
 
 
 ## 链接
@@ -14,13 +73,13 @@ Fortran静态/链接库的编译，其他编程语言链接到Fortran第三方�
 
 ## 需求
 
-> 1. 将Fortran私有代码打包成静态或动态链接库，供外部人员编译调用（需要我方提供相应的Module接口代码）。
-> 2. 使用他人编写的Fortran闭源链接库（需要对方提供相应的Module接口代码）。
-> 3. 多语言混合编程（在不影响程序正常使用的前提下逐步将Fortran代码改写为C++）。
+> 1. 将Fortran私有代码打包成静态或动态链接库，供外部C++/Fortran开发人员编译调用。
+> 2. C++/Fortran代码项目使用他人编写的Fortran闭源链接库。
+> 3. 多语言混合编程，或是在不影响程序正常使用的前提下逐步将Fortran代码改写为C++。
 
 本演示案例"闭源部分"： `.\{language}_{Type_of_library}\{Type_of_library}\src\` ；"开源部分"：  `.\{language}_{Type_of_library}\public_solution\src\` 。
 
-Fortran在链接到第三方链接库时较为麻烦的一点是：在编译时不但需要第三方链接库文件还需需要第三方链接库的Module接口代码。就是在链接到第三方链接库时必须先编译会被公开代码部分调用的删去了私有变量和过程的代码编译，得到 *.mod 文件。若没有这些 *.mod 文件，则会因为缺失module而无法编译链接到第三方链接库的可执行程序。
+Fortran在链接到由Fortran编写的第三方链接库时较为麻烦的一点是：在编译时不但需要第三方链接库文件(*.lib或*.a)还需需要第三方链接库的Module接口代码。就是在链接到第三方链接库时必须先编译会被公开代码部分调用的删去了私有变量和过程的代码，得到 *.mod 文件。若没有这些 *.mod 文件，则会因为缺失module而无法编译链接到第三方链接库的可执行程序。因此这些 *.mod 文件起到的作用类似于C/C++的头文件。
 
 "开源部分"中接口代码 `.\{language}_{Type_of_library}\public_solution\src\interface\` 是由"闭源部分"相应代码删去私有变量及过程得到的。
 
@@ -36,15 +95,15 @@ Fortran在链接到第三方链接库时较为麻烦的一点是：在编译时�
 
 编译得到静态链接库文件lib_x64.lib 以及lib_x86.lib，或相应的动态链接库文件。
 
-> 注意：此处外部链接库的生成均为release模式，debug模式达不到闭源的要求
+> 注意：本代码库所有案例的外部链接库的生成均为release模式，debug模式达不到闭源的要求
 
 接下来同样地，打开位于 `.\{language}_{Type_of_library}\public_solution\msvs\` 的 `public_code.sln` 文件进行批生成。
 
-> 这样就算是debug模式也无法看到链接库内的代码
+> 这样的话，链接到由Fortran编写的第三方链接库的代码项目（公开代码部分）就算是debug模式也无法看到链接库内的代码，因为链接库内不包含Debug符号。
 
 最后链接输出的可执行文件位于： `.\{language}_{Type_of_library}\public_solution\binary\`
 
-因为目前MSBuild不支持Intel Fortran，所以我们无法通过powershell批量编译所有解决方案。但可以使用powersell脚本调用辅助编译并测试所有的 `*.exe` 可执行文件（在执行脚本前请务必关闭所有的devenv.exe窗口）：
+由于目前MSBuild不支持Intel Fortran，所以我们无法通过powershell批量编译所有解决方案。但可以使用powersell脚本调用辅助编译并测试所有的 `*.exe` 可执行文件。在执行脚本前请务必关闭所有的devenv.exe窗口并仔细阅读帮助说明：
 
 ```powershell
 .\test_all.ps1 -h
@@ -58,7 +117,7 @@ cd Fortran_External_Library
 chmod -R 711 ./
 ```
 
-自动选择编译器并构建（Fortran链接到Fortran第三方链接库的案例支持 Intel Fortran 与 GUN Fortran，而C++链接到Fortran第三方链接库的案例只支持 g++ 链接到 GUN Fortran生成的库）：
+自动选择编译器并构建（Fortran链接到Fortran第三方链接库的案例支持 Intel Fortran 与 GNU Fortran，而C++链接到Fortran第三方链接库的案例只支持 g++ 链接到 GNU Fortran 生成的库）：
 
 ```bash
 ./fortran_dynamic_library/build.sh
@@ -90,8 +149,6 @@ chmod -R 711 ./
 ```python
 python test_all.py
 ```
-
-
 
 
 
