@@ -15,7 +15,7 @@ C++或Fortran链接到由Fortran编写的第三方链接库的简单演示，
   <td>Build tools</td>
  </tr>
  <tr>
-  <td rowspan=4 align="center">Linux</td>
+  <td rowspan=4 align="center">GNU/Linux</td>
   <td rowspan=2 align="center">C++</td>
   <td>Fortran External Library</td>
   <td align="center">GNU Fortran</td>
@@ -67,7 +67,7 @@ C++或Fortran链接到由Fortran编写的第三方链接库的简单演示，
 
 ## 链接
 
-- 源代码库: https://github.com/nescirem/Fortran_External_Library
+- 源代码库: [Fortran_External_Library](https://github.com/nescirem/Fortran_External_Library)
 
 
 

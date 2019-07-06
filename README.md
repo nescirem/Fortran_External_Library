@@ -65,7 +65,7 @@ Compile Fortran static library & dynamic library, and demonstrate the linking to
 
 ## Links
 
-* Source code repository: https://github.com/nescirem/Fortran_External_Library
+* Source code repository: [Fortran_External_Library](https://github.com/nescirem/Fortran_External_Library)
 
 
 
@@ -172,5 +172,5 @@ All codes are released under [MIT](./LICENSE) license except `make_depends_tree.
 
 \[Using C/C++ and Fortran together]: http://www.yolinux.com/TUTORIALS/LinuxTutorialMixingFortranAndC.html
 
-\[C++向Fortran链接库中传递字符串]: http://bbs.fcode.cn/thread-1117-1-1.html
+\[C++ passes a string to a Fortran link library]: http://bbs.fcode.cn/thread-1117-1-1.html
 

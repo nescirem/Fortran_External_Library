@@ -1,6 +1,5 @@
-#include <stdio.h> 
 #include <iostream> 
-#include <public_proc.h>
+#include "public_proc.h"
 
 extern "C" {
 	int i_iter;
