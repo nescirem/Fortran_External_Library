@@ -11,5 +11,6 @@ RUN apt update && apt install -y \
 RUN pip3 --no-cache-dir install sh
 
 ADD test_all.py /test_all.py
+
 ENTRYPOINT ["python3"]
 CMD ["/test_all.py"]

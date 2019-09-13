@@ -42,14 +42,14 @@ echo -e "$green build dynamic library 'libdll.so'$none"
 cd $shpath/dynamic_library
 make all FC=$FCompiler
 #sudo cp -rf libdll.so /usr/lib/
-sudo mv -f libdll.so ../public_solution/
+$sudo mv -f libdll.so ../public_solution/
 
 # make executable program linking to the dynamic library
 echo -e "$green build executable file 'main'$none"
 cd $shpath/public_solution
 make all FC=$CCompiler DDBUG=$DEBUG
 
-sudo mv -f libdll.so ./binary/
+$sudo mv -f libdll.so ./binary/
 
 echo  -e "$green Done.$none"
 echo

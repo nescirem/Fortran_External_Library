@@ -40,10 +40,10 @@ cd $shpath/static_library
 make all FC=$Compiler
 cd $shpath/public_solution
 if [[ -d ./library  ]]; then
-	sudo rm -rf ./library
+	$sudo rm -rf ./library
 fi
-sudo mkdir ./library
-sudo mv -f $shpath/static_library/liblib.a ./library/
+$sudo mkdir ./library
+$sudo mv -f $shpath/static_library/liblib.a ./library/
 
 # make executable program linking to the static library
 echo -e "$green build executable file 'main'$none"
