@@ -4,6 +4,7 @@ MAINTAINER nescirem <nescirem@gmail.com>
 LABEL description="github actions for fortran projects"
 
 RUN apt update && apt install -y \
+    make \
     build-essential gfortran makedepf90 \
     python3-pip python3-venv python-dev && \
     rm -rf /var/lib/apt/lists/*
