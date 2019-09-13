@@ -1,0 +1,11 @@
+me: CI Fortran
+
+on: [push]
+
+jobs:
+  build:
+    name: Fortran_External_Library auto test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: ./actions

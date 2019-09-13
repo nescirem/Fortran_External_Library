@@ -100,8 +100,8 @@ def clean_all():
     bash( c="./cpp_static_library/clean_all.sh", _timeout=2 )
     bash( c="./cpp_dynamic_library/clean_all.sh", _timeout=2 )
     #------------------------------------------------------
-	# add script here
-	#------------------------------------------------------
+    # add script here
+    #------------------------------------------------------
     print ('', flush=True)
     
 if __name__=="__main__":
